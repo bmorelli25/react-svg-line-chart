@@ -73,6 +73,8 @@ class LineChart extends Component {
                 r={pointRadius}
                 cx={this.getSvgX(point.x)}
                 cy={this.getSvgY(point.y)}
+                onMouseEnter={(e) => this.props.onPointHover(point, e.target)}
+                onMouseLeave={(e) => this.props.onPointHover(null, null)}
               />
             );
           })

@@ -19,7 +19,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="header">react svg line chart [part 1]</div>
+        <div className="header">react svg line chart [part 2]</div>
         <LineChart data={this.createFakeData()} />
         <LineChart data={this.createFakeData()} color={'#F44336'}  />
       </div>
