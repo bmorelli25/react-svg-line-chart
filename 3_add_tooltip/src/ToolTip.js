@@ -13,8 +13,6 @@ class ToolTip extends Component {
       placementStyles.top = triggerRect.top;
     }
 
-
-
     return (
       <div className={'tooltip tooltip-green tooltip-top'} style={ placementStyles }>
         <div className="tooltip_arrow" />
