@@ -1,9 +1,25 @@
-.App {
-  
+/*CONTAINER STYLES*/
+.container {
+}
+
+.row {
+  /*sets up flexbox*/
+  display: flex;
+}
+
+.side {
+  flex: 0 0 10%;
+  padding: 8px 0; /*must be the same as linechart padding*/
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .header {
-  padding: 15px;
+  padding: 15px 0;
   font-weight: 700;
   color: #757575;
 }

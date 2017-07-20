@@ -8,7 +8,9 @@ class App extends Component {
     super(props);
     this.state = {
       activePoint: null,
-      toolTipTrigger: null
+      toolTipTrigger: null,
+      fetchingData: true,
+      data: null
     }
   }
 
@@ -19,7 +21,7 @@ class App extends Component {
     })
   }
 
-  createFakeData() {
+  componentWillMount(){
     console.log(this.state);
     // This function creates data that doesn't look entirely random
     const data = []
@@ -30,10 +32,14 @@ class App extends Component {
       const y = random >= .45 ? temp + Math.floor(random * 20) : temp - Math.floor(random * 20);
       data.push({x,y})
     }
-    return data;
+    this.setState({
+      data,
+      fetchingData: false
+    });
   }
 
   render() {
+
     return (
       <div className="App">
 
@@ -48,9 +54,12 @@ class App extends Component {
         }
 
         <div className="header">react svg line chart [part 2]</div>
+        {
+          !this.state.fetchingData ?
+          <LineChart data={this.state.data} onPointHover={ this.handlePointHover } /> :
+          null
+        }
 
-        <LineChart data={this.createFakeData()} onPointHover={ this.handlePointHover } />
-        <LineChart data={this.createFakeData()} onPointHover={ this.handlePointHover } color={'#F44336'}  />
       </div>
     );
   }

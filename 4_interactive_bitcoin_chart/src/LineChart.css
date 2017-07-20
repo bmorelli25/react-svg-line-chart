@@ -1,5 +1,5 @@
 .linechart {
-  padding: 5px;
+  padding: 8px;
 }
 .linechart_path {
   stroke-width: 3;
@@ -13,4 +13,27 @@
 .linechart_point {
   fill: #fff;
   stroke-width: 2;
+}
+
+.linechart_area {
+  fill: #64B5F6;
+  stroke: none;
+  opacity: .4;
+}
+
+
+
+.main {
+  flex: 0 0 90%;
+}
+
+.date-label {
+  padding-left: 8px;
+  max-width: 700px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.popup {
+  min-height: 50px;
 }

@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
+import rp from 'request-promise';
 import './App.css';
 import LineChart from './LineChart';
-import ToolTip from './ToolTip';
+import NewToolTip from './NewToolTip';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activePoint: null,
-      toolTipTrigger: null
+      toolTipTrigger: null,
+      fetchingData: true,
+      data: null
     }
   }
 
@@ -19,38 +22,88 @@ class App extends Component {
     })
   }
 
-  createFakeData() {
-    console.log(this.state);
-    // This function creates data that doesn't look entirely random
-    const data = []
+  getMinY() {
+    const {data} = this.props;
+    return this.state.data.reduce((min, p) => p.y < min ? p.y : min, this.state.data[0].y);
+  }
+  getMaxY() {
+    const {data} = this.props;
+    return this.state.data.reduce((max, p) => p.y > max ? p.y : max, this.state.data[0].y);
+  }
 
-    for (let x = 0; x <= 30; x++) {
-      const random = Math.random();
-      const temp = data.length > 0 ? data[data.length-1].y : 50;
-      const y = random >= .45 ? temp + Math.floor(random * 20) : temp - Math.floor(random * 20);
-      data.push({x,y})
+  componentWillMount(){
+    const getData = async () => {
+      const historicalPrices = {
+        uri: `http://api.coindesk.com/v1/bpi/historical/close.json`,
+        json: true
+      }
+
+      const bitcoinData = await rp(historicalPrices);
+      const sortedData = [];
+      let count = 0;
+      for (let date in bitcoinData.bpi){
+        let price = '$' + bitcoinData.bpi[date].toFixed(2)
+        sortedData.push({
+          d: date,
+          p: price,
+          x: count, //previous days
+          y: bitcoinData.bpi[date] // numerical price
+        });
+        count++;
+      }
+      console.log(sortedData);
+      this.setState({
+        data: sortedData,
+        fetchingData: false
+      })
     }
-    return data;
+    getData();
   }
 
   render() {
     return (
       <div className="App">
 
-        { this.state.toolTipTrigger
-          ? (
-            <ToolTip trigger={ this.state.toolTipTrigger }>
-              <div>y : { this.state.activePoint.y }</div>
-              <div>x : { this.state.activePoint.x }</div>
-            </ToolTip>
-          )
-          : null
-        }
+        <div className="header">Bitcon Price Chart (Last 30 Days)</div>
+          <div className='container'>
+            <div className='row'>
+              <div className='side'>
+              </div>
+              <div className='main popup'>
+                { this.state.toolTipTrigger
+                  ? (
+                    <NewToolTip trigger={ this.state.toolTipTrigger } point={this.state.activePoint}>
+                      <div>Date: { this.state.activePoint.d }</div>
+                      <div>Price: { this.state.activePoint.p }</div>
+                    </NewToolTip>
+                  )
+                  : null
+                }
+              </div>
+            </div>
+            <div className='row'>
+              <div className='side'>
+                <span className='min'>{!this.state.fetchingData ? '$' + this.getMaxY().toFixed(2) : null}</span>
+                <span className='max'>{!this.state.fetchingData ? '$' + this.getMinY().toFixed(2) : null}</span>
+              </div>
 
-        <div className="header">react svg line chart [part 2]</div>
+              {
+                !this.state.fetchingData ?
+                <LineChart data={this.state.data} onPointHover={ this.handlePointHover } /> :
+                null
+              }
 
-        <LineChart data={this.createFakeData()} onPointHover={ this.handlePointHover } />
-        <LineChart data={this.createFakeData()} onPointHover={ this.handlePointHover } color={'#F44336'}  />
+            </div>
+            <div className='row'>
+              <div className='side'>
+              </div>
+              <div className='main date-label'>
+                <span className='min'>{!this.state.fetchingData ? this.state.data[0].d.substr(5) : null}</span>
+                <span className='max'>{!this.state.fetchingData ? this.state.data[this.state.data.length - 1].d.substr(5) : null}</span>
+              </div>
+            </div>
+          </div>
+
       </div>
     );
   }
