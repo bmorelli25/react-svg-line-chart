@@ -1,0 +1,16 @@
+.linechart {
+  padding: 5px;
+}
+.linechart_path {
+  stroke-width: 3;
+  fill: none;
+}
+
+.linechart_axis {
+  stroke: #bdc3c7;
+}
+
+.linechart_point {
+  fill: #fff;
+  stroke-width: 2;
+}
