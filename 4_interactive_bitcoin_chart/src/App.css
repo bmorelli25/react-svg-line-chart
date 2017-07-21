@@ -23,3 +23,12 @@
   font-weight: 700;
   color: #757575;
 }
+
+#coindesk {
+  font-weight: 300;
+}
+
+#coindesk a {
+  text-decoration: none;
+  color: inherit;
+}

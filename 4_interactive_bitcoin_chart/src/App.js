@@ -63,46 +63,26 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-
-        <div className="header">Bitcon Price Chart (Last 30 Days)</div>
-          <div className='container'>
-            <div className='row'>
-              <div className='side'>
-              </div>
-              <div className='main popup'>
-                { this.state.toolTipTrigger
-                  ? (
-                    <NewToolTip trigger={ this.state.toolTipTrigger } point={this.state.activePoint}>
-                      <div>Date: { this.state.activePoint.d }</div>
-                      <div>Price: { this.state.activePoint.p }</div>
-                    </NewToolTip>
-                  )
-                  : null
-                }
-              </div>
+        <div className='container'>
+          <div className='row'>
+            <div className='side'>
             </div>
-            <div className='row'>
-              <div className='side'>
-                <span className='min'>{!this.state.fetchingData ? '$' + this.getMaxY().toFixed(2) : null}</span>
-                <span className='max'>{!this.state.fetchingData ? '$' + this.getMinY().toFixed(2) : null}</span>
-              </div>
-
-              {
-                !this.state.fetchingData ?
-                <LineChart data={this.state.data} onPointHover={ this.handlePointHover } /> :
-                null
-              }
-
-            </div>
-            <div className='row'>
-              <div className='side'>
-              </div>
-              <div className='main date-label'>
-                <span className='min'>{!this.state.fetchingData ? this.state.data[0].d.substr(5) : null}</span>
-                <span className='max'>{!this.state.fetchingData ? this.state.data[this.state.data.length - 1].d.substr(5) : null}</span>
+            <div className='main'>
+              <div className="header">30 Day Bitcoin Price Chart -
+                <span id="coindesk"> Powered by <a href="http://www.coindesk.com/price/">CoinDesk</a></span>
               </div>
             </div>
           </div>
+        </div>
+
+        {
+          !this.state.fetchingData ?
+          <LineChart data={this.state.data} onPointHover={ this.handlePointHover } /> :
+          null
+        }
+
+
+
 
       </div>
     );
