@@ -1,21 +1,11 @@
 .row {
-  /*sets up flexbox*/
   display: flex;
+  justify-content: center;
 }
 
-.side {
-  flex: 0 0 10%;
-  padding: 8px 0; /*must be the same as linechart padding*/
-
-  display: flex;
-  flex-direction: column;
-
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.header {
-  padding: 15px 0;
+h1 {
+  padding: 0;
+  margin: 0;
   font-weight: 700;
   color: #757575;
 }
@@ -27,4 +17,8 @@
 #coindesk a {
   text-decoration: none;
   color: inherit;
+}
+
+.popup {
+  min-height: 50px;
 }

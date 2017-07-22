@@ -22,45 +22,12 @@
   opacity: .4;
 }
 
-
-
-.main {
-  flex: 0 0 90%;
-}
-
-.date-label {
-  padding-left: 8px;
-  max-width: 700px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.popup {
-  min-height: 50px;
+.linechart_label {
+ fill: #64B5F6;
+ font-weight: 700;
 }
 
 .hoverLine {
   stroke: #7D95B6;
   stroke-width: 1;
-}
-
-
-.hover {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  
-  position: absolute;
-  padding: 5px;
-  border-radius: 4px;
-  background-color: #2196F3;
-  color: white;
-}
-
-.hover .date {
-
-}
-
-.hover .price {
-  font-weight: 700;
 }
