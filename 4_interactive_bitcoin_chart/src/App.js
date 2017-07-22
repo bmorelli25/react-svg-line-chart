@@ -1,36 +1,17 @@
 import React, { Component } from 'react';
 import rp from 'request-promise';
+import moment from 'moment';
 import './App.css';
 import LineChart from './LineChart';
-import NewToolTip from './NewToolTip';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activePoint: null,
-      toolTipTrigger: null,
       fetchingData: true,
       data: null
     }
   }
-
-  handlePointHover = (point, trigger) => {
-    this.setState({
-      activePoint: point,
-      toolTipTrigger: trigger
-    })
-  }
-
-  getMinY() {
-    const {data} = this.props;
-    return this.state.data.reduce((min, p) => p.y < min ? p.y : min, this.state.data[0].y);
-  }
-  getMaxY() {
-    const {data} = this.props;
-    return this.state.data.reduce((max, p) => p.y > max ? p.y : max, this.state.data[0].y);
-  }
-
   componentWillMount(){
     const getData = async () => {
       const historicalPrices = {
@@ -44,14 +25,13 @@ class App extends Component {
       for (let date in bitcoinData.bpi){
         let price = '$' + bitcoinData.bpi[date].toFixed(2)
         sortedData.push({
-          d: date,
+          d: moment(date).format('MMM DD'),
           p: price,
           x: count, //previous days
           y: bitcoinData.bpi[date] // numerical price
         });
         count++;
       }
-      console.log(sortedData);
       this.setState({
         data: sortedData,
         fetchingData: false
@@ -59,7 +39,6 @@ class App extends Component {
     }
     getData();
   }
-
   render() {
     return (
       <div className="App">
@@ -74,16 +53,7 @@ class App extends Component {
             </div>
           </div>
         </div>
-
-        {
-          !this.state.fetchingData ?
-          <LineChart data={this.state.data} onPointHover={ this.handlePointHover } /> :
-          null
-        }
-
-
-
-
+        { !this.state.fetchingData ? <LineChart data={this.state.data} /> : null }
       </div>
     );
   }

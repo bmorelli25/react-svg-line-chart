@@ -1,7 +1,3 @@
-/*CONTAINER STYLES*/
-.container {
-}
-
 .row {
   /*sets up flexbox*/
   display: flex;
