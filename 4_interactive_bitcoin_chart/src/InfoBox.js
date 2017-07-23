@@ -13,9 +13,9 @@ class InfoBox extends Component {
       updatedAt: null
     }
   }
-  componentWillMount(){
-    const {data} = this.props;
-    const getData = async () => {
+  componentDidMount(){
+    this.getData = async () => {
+      const {data} = this.props;
       const livePrices = {
         uri: `http://api.coindesk.com/v1/bpi/currentprice.json`,
         json: true
@@ -33,7 +33,11 @@ class InfoBox extends Component {
         updatedAt: bitcoinData.time.updated
       })
     }
-    getData();
+    this.getData();
+    this.refresh = setInterval(() => this.getData(), 90000);
+  }
+  componentWillUnmount(){
+    clearInterval(this.refresh);
   }
   render(){
     return (

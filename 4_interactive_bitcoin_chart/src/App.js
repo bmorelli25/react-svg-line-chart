@@ -17,13 +17,12 @@ class App extends Component {
     }
   }
   handleChartHover(hoverLoc, activePoint){
-    console.log(hoverLoc);
     this.setState({
       hoverLoc: hoverLoc,
       activePoint: activePoint
     })
   }
-  componentWillMount(){
+  componentDidMount(){
     const getData = async () => {
       const historicalPrices = {
         uri: `http://api.coindesk.com/v1/bpi/historical/close.json`,

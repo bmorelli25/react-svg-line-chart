@@ -65,7 +65,7 @@ class LineChart extends Component {
   }
   // BUILD GRID AXIS
   makeAxis() {
-    const {xLabelSize, yLabelSize} = this.props;
+    const {yLabelSize} = this.props;
     const x = this.getX();
     const y = this.getY();
 
