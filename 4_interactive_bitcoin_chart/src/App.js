@@ -28,23 +28,27 @@ class App extends Component {
         uri: `http://api.coindesk.com/v1/bpi/historical/close.json`,
         json: true
       }
-
-      const bitcoinData = await rp(historicalPrices);
-      const sortedData = [];
-      let count = 0;
-      for (let date in bitcoinData.bpi){
-        sortedData.push({
-          d: moment(date).format('MMM DD'),
-          p: bitcoinData.bpi[date].toLocaleString('us-EN',{ style: 'currency', currency: 'USD' }),
-          x: count, //previous days
-          y: bitcoinData.bpi[date] // numerical price
-        });
-        count++;
+      try {
+        const bitcoinData = await rp(historicalPrices);
+        const sortedData = [];
+        let count = 0;
+        for (let date in bitcoinData.bpi){
+          sortedData.push({
+            d: moment(date).format('MMM DD'),
+            p: bitcoinData.bpi[date].toLocaleString('us-EN',{ style: 'currency', currency: 'USD' }),
+            x: count, //previous days
+            y: bitcoinData.bpi[date] // numerical price
+          });
+          count++;
+        }
+        this.setState({
+          data: sortedData,
+          fetchingData: false
+        })
       }
-      this.setState({
-        data: sortedData,
-        fetchingData: false
-      })
+      catch(e){
+        console.log(e);
+      }
     }
     getData();
   }
