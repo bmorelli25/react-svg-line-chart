@@ -21,17 +21,21 @@ class InfoBox extends Component {
         json: true
       }
 
-      const bitcoinData = await rp(livePrices);
-      const price = bitcoinData.bpi.USD.rate_float;
-      const change = price - data[0].y;
-      const changeP = (price - data[0].y) / data[0].y * 100;
+      try {
+        const bitcoinData = await rp(livePrices);
+        const price = bitcoinData.bpi.USD.rate_float;
+        const change = price - data[0].y;
+        const changeP = (price - data[0].y) / data[0].y * 100;
 
-      this.setState({
-        currentPrice: bitcoinData.bpi.USD.rate_float,
-        monthChangeD: change.toLocaleString('us-EN',{ style: 'currency', currency: 'USD' }),
-        monthChangeP: changeP.toFixed(2) + '%',
-        updatedAt: bitcoinData.time.updated
-      })
+        this.setState({
+          currentPrice: bitcoinData.bpi.USD.rate_float,
+          monthChangeD: change.toLocaleString('us-EN',{ style: 'currency', currency: 'USD' }),
+          monthChangeP: changeP.toFixed(2) + '%',
+          updatedAt: bitcoinData.time.updated
+        })
+      } catch(e) {
+        console.log(e);
+      }
     }
     this.getData();
     this.refresh = setInterval(() => this.getData(), 90000);
